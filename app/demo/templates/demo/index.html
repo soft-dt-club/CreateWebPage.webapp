@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% load static %}
+{% block style_block %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="margin">
+  <form method="POST" action="{% url 'result' %}">{% csrf_token %}
+    {{form.keyword}}
+  </form>
+  <div class="right">
+    <a href="{% url 'main' %}">top</a>
+  </div>
+</div>
+
+{% endblock %}

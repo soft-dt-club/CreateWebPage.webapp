@@ -1,0 +1,14 @@
+{% extends 'base.html' %} {% load static %}
+{% block style_block %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="margin">
+  <form method="GET">
+    <button name="submit" class="button_area btn btn-primary">click</button>
+  </form>
+</div>
+
+{% endblock %}
