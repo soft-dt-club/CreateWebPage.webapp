@@ -1,0 +1,60 @@
+{% extends 'base.html' %} {% load static %}
+{% block style_block %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<link rel="stylesheet" href="{% static 'css/results.css' %}">
+{% endblock %}
+{% block content %}
+<div class="margin">
+  <form method="POST" action="{% url 'result' %}">{% csrf_token %}
+    <input type="text" name="keyword" id="" class="search form-control" value={{keyword}}>
+  </form>
+  <div class="right">
+    <a href="{% url 'main' %}">top</a>
+  </div>
+  <div id="result-content" style="display: none;">
+    {% if list %}
+    <span>{{list|length}}件みつかりました。</span>
+    {% for item in list %}
+    <div style="border-bottom:#e7e7e7 solid 1px; padding-bottom: 1em;">
+      <div class="flex info_block">
+        <div>
+          <div style="position:absolute; height: 300px;">
+            <iframe src="{{item.preview_url}}" frameborder="0"></iframe>
+          </div>
+          <img src="{{item.images}}" alt="{{ item.name }}">
+        </div>
+        <div>
+          <h3>{{item.name}}</h3>
+          <span>{{item.artist}} - <strong>{{item.album_title}}</strong></span><br>
+          <span>{{item.album_type}}</span><br>
+          <span>release_date: {{item.release_date}}</span><br>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="content">
+      <div>
+        <span>😭Sorry, not found</span>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+  <div class="content loading-bar-area" id="loading-bar-area">
+    {% include 'demo/loading.html' %}
+  </div>
+</div>
+
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $.ajax({
+      url: "/loading/",
+    }).done(function (data) {
+      $('#loading-bar-area').remove();
+      $('#result-content').show();
+    });
+  });
+</script>
+
+{% endblock %}
